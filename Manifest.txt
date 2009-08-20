@@ -1,0 +1,7 @@
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+ext/extconf.rb
+ext/statsamplert.c
+test/test_statsample_optimization.rb
