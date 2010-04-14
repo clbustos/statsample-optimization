@@ -1,6 +1,6 @@
+=== 2.0.0 / 2009-08-21
+ * Uses rcov internal configuration
 === 1.0.0 / 2009-08-02
 
-* 1 major enhancement
-
-  * Birthday!
+ * Birthday!
 

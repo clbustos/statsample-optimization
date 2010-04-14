@@ -23,14 +23,14 @@ end
 
 
 
-Hoe.spec 'statsample-optimization' do |p|
-  p.version="1.1.0"
-  p.rubyforge_name = 'ruby-statsample'
-  p.developer('Claudio Bustos', 'clbustos_at_gmail.com')
-  p.spec_extras[:extensions] = ["ext/extconf.rb"]
-  p.extra_deps << ["statsample",">=0.3.4"]
-  p.clean_globs << EXT
-  p.clean_globs << EXT << "ext/*.o" << "ext/*.so" << "ext/Makefile"
+Hoe.spec 'statsample-optimization' do
+  self.version="2.0.0"
+  self.rubyforge_name = 'ruby-statsample'
+  self.developer('Claudio Bustos', 'clbustos_at_gmail.com')
+  self.spec_extras[:extensions] = ["ext/extconf.rb"]
+  self.extra_deps << ["statsample","~>0.9"]
+  self.clean_globs << EXT
+  self.clean_globs << EXT << "ext/*.o" << "ext/*.so" << "ext/Makefile"
 end
 
 # vim: syntax=ruby

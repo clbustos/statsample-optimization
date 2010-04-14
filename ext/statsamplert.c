@@ -3,35 +3,39 @@
 * :stopdoc:
 */
 void Init_statsamplert();
-VALUE nominal_frequencies(VALUE self);
-VALUE rubyss_frequencies(VALUE self, VALUE data);
-VALUE rubyss_set_valid_data(VALUE self, VALUE vector);
-VALUE dataset_case_as_hash(VALUE self, VALUE index);
-VALUE dataset_case_as_array(VALUE self, VALUE index);
+VALUE statsample_frequencies(VALUE self, VALUE data);
+VALUE statsample_set_valid_data_intern(VALUE self, VALUE vector);
+VALUE statsample_case_as_hash(VALUE self, VALUE ds, VALUE index);
+VALUE statsample_case_as_array(VALUE self, VALUE ds, VALUE index);
 void Init_statsamplert()
 {
-	VALUE mRubySS;
-	ID id_statsample= rb_intern("Statsample");
-	 if(rb_const_defined(rb_cObject, id_statsample)) {
-		mRubySS = rb_const_get(rb_cObject, id_statsample);
-	 } else {
-		mRubySS = rb_define_module("Statsample"); 
-	 }
-    
-	rb_define_const(mRubySS, "OPTIMIZED",Qtrue);
+	VALUE mStatsample;
+    VALUE mSTATSAMPLE__;
+	ID id_statsample;
+	ID id_STATSAMPLE__;
+    id_statsample   = rb_intern("Statsample");
+    id_STATSAMPLE__ = rb_intern("STATSAMPLE__");
 
-    VALUE cNominal = rb_define_class_under(mRubySS,"Nominal",rb_cObject);
-    VALUE cDataset = rb_define_class_under(mRubySS,"Dataset",rb_cObject);
-    
-    rb_define_module_function(mRubySS,"_frequencies",rubyss_frequencies,1);
-    rb_define_module_function(mRubySS,"_set_valid_data",rubyss_set_valid_data,1);
-    rb_define_method(cNominal,"frequencies",nominal_frequencies,0);
-    rb_define_method(cDataset,"case_as_hash",dataset_case_as_hash,1);
-    rb_define_method(cDataset,"case_as_array",dataset_case_as_array,1);
+    if(rb_const_defined(rb_cObject, id_statsample)) {
+		mStatsample = rb_const_get(rb_cObject, id_statsample);
+	 } else {
+		mStatsample = rb_define_module("Statsample"); 
+	 }
+    if(rb_const_defined(mStatsample, id_STATSAMPLE__)) {
+		mSTATSAMPLE__ = rb_const_get(mStatsample, id_STATSAMPLE__);
+	 } else {
+		mSTATSAMPLE__ = rb_define_module_under(mStatsample, "STATSAMPLE__"); 
+	 }
+     
+     rb_define_const(mStatsample, "OPTIMIZED",Qtrue);
+    rb_define_module_function(mSTATSAMPLE__,"frequencies",statsample_frequencies,1);
+    rb_define_module_function(mSTATSAMPLE__,"set_valid_data_intern", statsample_set_valid_data_intern, 1);
+    rb_define_module_function(mSTATSAMPLE__,"case_as_hash",statsample_case_as_hash,2);
+    rb_define_module_function(mSTATSAMPLE__,"case_as_array",statsample_case_as_array,2);
 
 }
 
-VALUE rubyss_set_valid_data(VALUE self, VALUE vector) {
+VALUE statsample_set_valid_data_intern(VALUE self, VALUE vector) {
 /** Emulate
 
 @data.each do |n|
@@ -67,7 +71,11 @@ VALUE rubyss_set_valid_data(VALUE self, VALUE vector) {
     rb_iv_set(vector,"@has_missing_data",(RARRAY_LEN(missing_data)>0) ? Qtrue : Qfalse);
     return Qnil;
 }
-VALUE rubyss_frequencies(VALUE self, VALUE data) {
+/**
+* Retuns frequencies for an array as a hash, with 
+* keys as items and values as number of items
+*/
+VALUE statsample_frequencies(VALUE self, VALUE data) {
     VALUE h;
     VALUE val;
      long len;
@@ -89,14 +97,10 @@ VALUE rubyss_frequencies(VALUE self, VALUE data) {
     return h;
 }
 
-VALUE nominal_frequencies(VALUE self) {
-    VALUE data=rb_iv_get(self,"@data");
-    return rubyss_frequencies(self,data);
-}
-VALUE dataset_case_as_hash(VALUE self, VALUE index) {
+VALUE statsample_case_as_hash(VALUE self, VALUE ds,VALUE index) {
     VALUE vector,data,key;
-    VALUE fields=rb_iv_get(self,"@fields");
-    VALUE vectors=rb_iv_get(self,"@vectors");
+    VALUE fields=rb_iv_get(ds,"@fields");
+    VALUE vectors=rb_iv_get(ds,"@vectors");
     VALUE h=rb_hash_new();
     long len=RARRAY_LEN(fields);
     long i;
@@ -108,10 +112,10 @@ VALUE dataset_case_as_hash(VALUE self, VALUE index) {
     }
     return h;
 }
-VALUE dataset_case_as_array(VALUE self, VALUE index) {
+VALUE statsample_case_as_array(VALUE self, VALUE ds, VALUE index) {
     VALUE vector,data,key;
-    VALUE fields=rb_iv_get(self,"@fields");
-    VALUE vectors=rb_iv_get(self,"@vectors");
+    VALUE fields=rb_iv_get(ds,"@fields");
+    VALUE vectors=rb_iv_get(ds,"@vectors");
     VALUE ar=rb_ary_new();
     long len=RARRAY_LEN(fields);
     long i;
