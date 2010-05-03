@@ -4,7 +4,7 @@
 require 'rubygems'
 require 'rake/extensiontask'
 require 'hoe'
-
+Hoe.plugin :git
 Rake::ExtensionTask.new('statsamplert')
 
 task "test" => ["lib/statsamplert.so"]
