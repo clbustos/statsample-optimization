@@ -1,0 +1,4 @@
+lib/*.so
+pkg
+tmp
+doc
