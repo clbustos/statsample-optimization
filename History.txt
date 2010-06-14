@@ -1,3 +1,5 @@
+=== 2.0.3 / 2010-06-14
+* All extensions dependencies of statsample moved to statsample-optimization
 === 2.0.0 / 2009-08-21
  * Uses rcov internal configuration
 === 1.0.0 / 2009-08-02

@@ -4,8 +4,7 @@ http://rubyforge.org/projects/ruby-statsample/
 
 == DESCRIPTION:
 
-Extension for statsample, that speed some methods.
-Optimize the following methods
+Install gsl, statistics2 and provides a C extension to optimize the following methods
 
 * Vector#frecuencies
 * Vector#set_valid_data
