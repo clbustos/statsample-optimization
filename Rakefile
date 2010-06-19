@@ -5,10 +5,9 @@ require 'rubygems'
 require 'rake/extensiontask'
 require 'hoe'
 Hoe.plugin :git
-Rake::ExtensionTask.new('statsamplert')
 
 task "test" => ["lib/statsamplert.so"]
-Hoe.spec 'statsample-optimization' do
+spec=Hoe.spec 'statsample-optimization' do
   self.version="2.0.3"
   self.spec_extras[:extensions] = ["ext/statsamplert/extconf.rb"]
   self.rubyforge_name = 'ruby-statsample'
@@ -17,5 +16,8 @@ Hoe.spec 'statsample-optimization' do
   self.extra_deps  << ["rake-compiler"]
 
 end
+
+Rake::ExtensionTask.new('statsamplert',spec.spec)
+
 
 # vim: syntax=ruby
