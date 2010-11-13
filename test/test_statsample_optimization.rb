@@ -5,7 +5,7 @@ require "statsamplert"
 require "statsample"
 class TestRubyStatsampleOpt < Test::Unit::TestCase
   def test_base
-    assert(Statsample::OPTIMIZED,true)
+    assert(Statsample::OPTIMIZED,"should be true")
   end
   def test_frequencies
     assert(Statsample::STATSAMPLE__.respond_to?(:frequencies))
