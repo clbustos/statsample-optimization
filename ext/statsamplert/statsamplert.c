@@ -1,4 +1,5 @@
 #include <ruby.h>
+#include "statsamplert.h"
 #include "as116.h"
 /**
 * :stopdoc:
@@ -157,13 +158,13 @@ VALUE statsample_tetrachoric(VALUE self, VALUE a, VALUE b, VALUE c, VALUE d) {
     
     result= tetra(&pa,&pb, &pc, &pd, &r,
 	 &sdr, &sdzero, &t_x,&t_y, &itype, &ifault);
-    rb_hash_aset(h, rb_str_new_cstr("r"), DBL2NUM(r));
-    rb_hash_aset(h, rb_str_new_cstr("sdr"), DBL2NUM(sdr));
-    rb_hash_aset(h, rb_str_new_cstr("sdzero"), DBL2NUM(sdzero));
-    rb_hash_aset(h, rb_str_new_cstr("threshold_x"), DBL2NUM(t_x));
-    rb_hash_aset(h, rb_str_new_cstr("threshold_y"), DBL2NUM(t_y));
-    rb_hash_aset(h, rb_str_new_cstr("itype"), INT2NUM(itype));
-    rb_hash_aset(h, rb_str_new_cstr("ifault"), INT2NUM(ifault));
+    rb_hash_aset(h, rb_str_new2("r"), DBL2NUM(r));
+    rb_hash_aset(h, rb_str_new2("sdr"), DBL2NUM(sdr));
+    rb_hash_aset(h, rb_str_new2("sdzero"), DBL2NUM(sdzero));
+    rb_hash_aset(h, rb_str_new2("threshold_x"), DBL2NUM(t_x));
+    rb_hash_aset(h, rb_str_new2("threshold_y"), DBL2NUM(t_y));
+    rb_hash_aset(h, rb_str_new2("itype"), INT2NUM(itype));
+    rb_hash_aset(h, rb_str_new2("ifault"), INT2NUM(ifault));
     
     return h;
     
