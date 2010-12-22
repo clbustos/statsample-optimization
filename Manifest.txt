@@ -2,6 +2,8 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
+ext/statsamplert/as116.c
+ext/statsamplert/as116.h
 ext/statsamplert/extconf.rb
 ext/statsamplert/statsamplert.c
 test/test_statsample_optimization.rb
