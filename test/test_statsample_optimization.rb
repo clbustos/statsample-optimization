@@ -39,5 +39,15 @@ class TestRubyStatsampleOpt < Test::Unit::TestCase
     ds={"a"=>a,"b"=>b}.to_dataset
     assert_equal({"a"=>1,"b"=>4},Statsample::STATSAMPLE__.case_as_hash(ds,0))
   end
+  def test_tetrachoric
+    assert(Statsample::STATSAMPLE__.respond_to?(:tetrachoric))
+    a,b,c,d = 30,40,70,20
+    result=Statsample::STATSAMPLE__.tetrachoric(a,b,c,d)
+    assert_in_delta(-0.53980, result['r'], 0.0001)
+    assert_in_delta(0.09940, result['sdr'], 0.0001)
+    assert_in_delta(-0.15731, result['threshold_x'], 0.0001)
+    assert_in_delta(0.31864, result['threshold_y'], 0.0001)
+    
+  end
 
 end

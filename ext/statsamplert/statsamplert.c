@@ -1,12 +1,16 @@
 #include <ruby.h>
+#include "as116.h"
 /**
 * :stopdoc:
 */
+
 void Init_statsamplert();
 VALUE statsample_frequencies(VALUE self, VALUE data);
 VALUE statsample_set_valid_data_intern(VALUE self, VALUE vector);
 VALUE statsample_case_as_hash(VALUE self, VALUE ds, VALUE index);
 VALUE statsample_case_as_array(VALUE self, VALUE ds, VALUE index);
+VALUE statsample_tetrachoric(VALUE self, VALUE a, VALUE b, VALUE c, VALUE d);
+
 void Init_statsamplert()
 {
 	VALUE mStatsample;
@@ -32,6 +36,7 @@ void Init_statsamplert()
     rb_define_module_function(mSTATSAMPLE__,"set_valid_data_intern", statsample_set_valid_data_intern, 1);
     rb_define_module_function(mSTATSAMPLE__,"case_as_hash",statsample_case_as_hash,2);
     rb_define_module_function(mSTATSAMPLE__,"case_as_array",statsample_case_as_array,2);
+    rb_define_module_function(mSTATSAMPLE__,"tetrachoric",statsample_tetrachoric,4);
 
 }
 
@@ -78,7 +83,7 @@ VALUE statsample_set_valid_data_intern(VALUE self, VALUE vector) {
 VALUE statsample_frequencies(VALUE self, VALUE data) {
     VALUE h;
     VALUE val;
-     long len;
+    long len;
     long i;
 
 	Check_Type(data,T_ARRAY);
@@ -128,3 +133,38 @@ VALUE statsample_case_as_array(VALUE self, VALUE ds, VALUE index) {
     return ar;
 }
 
+
+
+VALUE statsample_tetrachoric(VALUE self, VALUE a, VALUE b, VALUE c, VALUE d) {
+    VALUE h=rb_hash_new();
+    double pa;
+    double pb;
+    double pc;
+    double pd;
+    double r;
+	double sdr; 
+    double sdzero;
+	double t_x; 
+    double t_y;
+    
+    int itype;
+    int ifault;
+    int result;
+    pa=NUM2DBL(a);
+    pb=NUM2DBL(b);
+    pc=NUM2DBL(c);
+    pd=NUM2DBL(d);
+    
+    result= tetra(&pa,&pb, &pc, &pd, &r,
+	 &sdr, &sdzero, &t_x,&t_y, &itype, &ifault);
+    rb_hash_aset(h, rb_str_new_cstr("r"), DBL2NUM(r));
+    rb_hash_aset(h, rb_str_new_cstr("sdr"), DBL2NUM(sdr));
+    rb_hash_aset(h, rb_str_new_cstr("sdzero"), DBL2NUM(sdzero));
+    rb_hash_aset(h, rb_str_new_cstr("threshold_x"), DBL2NUM(t_x));
+    rb_hash_aset(h, rb_str_new_cstr("threshold_y"), DBL2NUM(t_y));
+    rb_hash_aset(h, rb_str_new_cstr("itype"), INT2NUM(itype));
+    rb_hash_aset(h, rb_str_new_cstr("ifault"), INT2NUM(ifault));
+    
+    return h;
+    
+}

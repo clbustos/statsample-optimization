@@ -12,7 +12,7 @@ spec=Hoe.spec 'statsample-optimization' do
   self.spec_extras[:extensions] = ["ext/statsamplert/extconf.rb"]
   self.rubyforge_name = 'ruby-statsample'
   self.developer('Claudio Bustos', 'clbustos_at_gmail.com')
-  self.extra_deps << ["statsample","~>0.15.1"] << ["statistics2", "~>0.54"] << ["gsl", "~>1.12.109"]
+  self.extra_deps << ["statsample","~>0.17"] << ["statistics2", "~>0.54"] << ["gsl", "~>1.14"]
   self.extra_deps  << ["rake-compiler"]
 
 end
