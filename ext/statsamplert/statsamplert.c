@@ -5,6 +5,8 @@
 * :stopdoc:
 */
 
+#define GET_SYM(sym) ID2SYM(rb_intern(sym))
+
 void Init_statsamplert();
 VALUE statsample_frequencies(VALUE self, VALUE data);
 VALUE statsample_set_valid_data_intern(VALUE self, VALUE vector);
@@ -158,13 +160,13 @@ VALUE statsample_tetrachoric(VALUE self, VALUE a, VALUE b, VALUE c, VALUE d) {
     
     result= tetra(&pa,&pb, &pc, &pd, &r,
 	 &sdr, &sdzero, &t_x,&t_y, &itype, &ifault);
-    rb_hash_aset(h, rb_str_new2("r"), DBL2NUM(r));
-    rb_hash_aset(h, rb_str_new2("sdr"), DBL2NUM(sdr));
-    rb_hash_aset(h, rb_str_new2("sdzero"), DBL2NUM(sdzero));
-    rb_hash_aset(h, rb_str_new2("threshold_x"), DBL2NUM(t_x));
-    rb_hash_aset(h, rb_str_new2("threshold_y"), DBL2NUM(t_y));
-    rb_hash_aset(h, rb_str_new2("itype"), INT2NUM(itype));
-    rb_hash_aset(h, rb_str_new2("ifault"), INT2NUM(ifault));
+    rb_hash_aset(h, GET_SYM("r"), DBL2NUM(r));
+    rb_hash_aset(h, GET_SYM("sdr"), DBL2NUM(sdr));
+    rb_hash_aset(h, GET_SYM("sdzero"), DBL2NUM(sdzero));
+    rb_hash_aset(h, GET_SYM("threshold_x"), DBL2NUM(t_x));
+    rb_hash_aset(h, GET_SYM("threshold_y"), DBL2NUM(t_y));
+    rb_hash_aset(h, GET_SYM("itype"), INT2NUM(itype));
+    rb_hash_aset(h, GET_SYM("ifault"), INT2NUM(ifault));
     
     return h;
     
