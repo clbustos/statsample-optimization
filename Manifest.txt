@@ -6,4 +6,5 @@ ext/statsamplert/as116.c
 ext/statsamplert/as116.h
 ext/statsamplert/extconf.rb
 ext/statsamplert/statsamplert.c
+ext/statsamplert/statsamplert.h
 test/test_statsample_optimization.rb
