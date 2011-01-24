@@ -47,6 +47,34 @@ class TestRubyStatsampleOpt < Test::Unit::TestCase
     assert_in_delta(0.09940, result[:sdr], 0.0001)
     assert_in_delta(-0.15731, result[:threshold_x], 0.0001)
     assert_in_delta(0.31864, result[:threshold_y], 0.0001)
+  end
+  def test_check_type
+    assert(Statsample::STATSAMPLE__.respond_to?(:check_type))
+    
+    v=Statsample::Vector.new
+    v.type=:nominal
+    assert_raise(NoMethodError) { Statsample::STATSAMPLE__.check_type(v,:scale)}
+    assert_raise(NoMethodError) { Statsample::STATSAMPLE__.check_type(v, :ordinal)}
+    assert(Statsample::STATSAMPLE__.check_type(v, :nominal).nil?)
+    
+    v.type=:ordinal
+    
+    assert_raise(NoMethodError) { Statsample::STATSAMPLE__.check_type(v,:scale)}
+    
+    assert(Statsample::STATSAMPLE__.check_type(v,:ordinal).nil?)
+    assert(Statsample::STATSAMPLE__.check_type(v,:nominal).nil?)
+    
+
+    v.type=:scale
+    assert(Statsample::STATSAMPLE__.check_type(v,:scale).nil?)
+    assert(Statsample::STATSAMPLE__.check_type(v,:ordinal).nil?)
+    assert(Statsample::STATSAMPLE__.check_type(v,:nominal).nil?)
+
+    v.type=:date
+    assert_raise(NoMethodError) { Statsample::STATSAMPLE__.check_type(v,:scale)}
+    assert_raise(NoMethodError) { Statsample::STATSAMPLE__.check_type(v,:ordinal)}
+    assert_raise(NoMethodError) { Statsample::STATSAMPLE__.check_type(v,:nominal)}
+        
     
   end
 

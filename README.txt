@@ -8,8 +8,10 @@ Install gsl, statistics2 and provides a C extension to optimize the following me
 
 * Vector#frecuencies
 * Vector#set_valid_data
+* Vector#check_type
 * Dataset#case_as_hash
 * Dataset#case_as_array
+* Bivariate::Tetrachoric
 
 
 

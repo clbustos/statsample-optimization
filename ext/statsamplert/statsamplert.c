@@ -12,6 +12,7 @@ VALUE statsample_frequencies(VALUE self, VALUE data);
 VALUE statsample_set_valid_data_intern(VALUE self, VALUE vector);
 VALUE statsample_case_as_hash(VALUE self, VALUE ds, VALUE index);
 VALUE statsample_case_as_array(VALUE self, VALUE ds, VALUE index);
+VALUE statsample_check_type(VALUE self, VALUE v, VALUE type);
 VALUE statsample_tetrachoric(VALUE self, VALUE a, VALUE b, VALUE c, VALUE d);
 
 void Init_statsamplert()
@@ -36,6 +37,7 @@ void Init_statsamplert()
      
      rb_define_const(mStatsample, "OPTIMIZED",Qtrue);
     rb_define_module_function(mSTATSAMPLE__,"frequencies",statsample_frequencies,1);
+    rb_define_module_function(mSTATSAMPLE__,"check_type",statsample_check_type,2);
     rb_define_module_function(mSTATSAMPLE__,"set_valid_data_intern", statsample_set_valid_data_intern, 1);
     rb_define_module_function(mSTATSAMPLE__,"case_as_hash",statsample_case_as_hash,2);
     rb_define_module_function(mSTATSAMPLE__,"case_as_array",statsample_case_as_array,2);
@@ -80,7 +82,7 @@ VALUE statsample_set_valid_data_intern(VALUE self, VALUE vector) {
     return Qnil;
 }
 /**
-* Retuns frequencies for an array as a hash, with 
+* Returns frequencies for an array as a hash, with 
 * keys as items and values as number of items
 */
 VALUE statsample_frequencies(VALUE self, VALUE data) {
@@ -136,6 +138,23 @@ VALUE statsample_case_as_array(VALUE self, VALUE ds, VALUE index) {
     return ar;
 }
 
+//raise NoMethodError if (t==:scale and @type!=:scale) or (t==:ordinal and @type==:nominal) or (t==:date) or (@type==:date)
+
+VALUE statsample_check_type(VALUE self, VALUE vector, VALUE type) {
+    VALUE vector_type=rb_iv_get(vector,"@type");
+    VALUE scale=GET_SYM("scale");
+    VALUE ordinal=GET_SYM("ordinal");
+    VALUE nominal=GET_SYM("nominal");
+    VALUE date=GET_SYM("date");
+    
+    if ((type==scale   && vector_type!=scale) ||
+        (type==ordinal && vector_type==nominal) ||
+        (type==date) ||
+        (vector_type==date)) {
+            rb_raise(rb_eNoMethodError,"Method not available");
+        }
+    return Qnil;
+}
 
 
 VALUE statsample_tetrachoric(VALUE self, VALUE a, VALUE b, VALUE c, VALUE d) {
@@ -167,7 +186,5 @@ VALUE statsample_tetrachoric(VALUE self, VALUE a, VALUE b, VALUE c, VALUE d) {
     rb_hash_aset(h, GET_SYM("threshold_y"), DBL2NUM(t_y));
     rb_hash_aset(h, GET_SYM("itype"), INT2NUM(itype));
     rb_hash_aset(h, GET_SYM("ifault"), INT2NUM(ifault));
-    
     return h;
-    
 }
