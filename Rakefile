@@ -8,11 +8,11 @@ Hoe.plugin :git
 
 task "test" => ["lib/statsamplert.so"]
 spec=Hoe.spec 'statsample-optimization' do
-  self.version="2.1.0"
+  self.version="2.1.1"
   self.spec_extras[:extensions] = ["ext/statsamplert/extconf.rb"]
   self.rubyforge_name = 'ruby-statsample'
   self.developer('Claudio Bustos', 'clbustos_at_gmail.com')
-  self.extra_deps << ["statsample","~>0.17"] << ["statistics2", "~>0.54"] << ["gsl", "~>1.14"]
+  self.extra_deps << ["statsample","~>1.2"] << ["statistics2", "~>0.54"] << ["gsl", "~>1.14"]
   self.extra_deps  << ["rake-compiler"]
 
 end
