@@ -1,8 +1,8 @@
-$:.unshift(File.dirname(__FILE__)+"/lib")
 require "test/unit"
-#require "statsample"
-require "statsamplert"
 require "statsample"
+
+require File.expand_path(File.dirname(__FILE__)+"/../lib/statsamplert")
+
 class TestRubyStatsampleOpt < Test::Unit::TestCase
   def test_base
     assert(Statsample::OPTIMIZED,"should be true")
